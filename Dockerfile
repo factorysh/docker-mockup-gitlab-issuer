@@ -15,6 +15,7 @@ COPY *.py /opt/issuer/
 
 EXPOSE 5000
 USER issuer
+VOLUME /data
 
-CMD ["/opt/issuer/bin/python", "/opt/issuer/issuer.py"]
+CMD ["/opt/issuer/venv/bin/python", "/opt/issuer/issuer.py"]
 

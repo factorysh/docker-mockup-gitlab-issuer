@@ -15,7 +15,7 @@ from flask import Flask, request
 
 
 # Load the key we created
-with open("server/web/test/sample_key", "rb") as key_file:
+with open("/data/private_key", "rb") as key_file:
     private_key = serialization.load_pem_private_key(
         key_file.read(),
         password=None,
