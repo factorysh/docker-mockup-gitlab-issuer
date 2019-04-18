@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 https://stackoverflow.com/questions/29650495/how-to-verify-a-jwt-using-python-pyjwt-with-public-key
 """
@@ -48,4 +46,5 @@ def auth():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port=5000)
+    import os
+    app.run(debug=(os.getenv("DEBUG") != ""), host="0.0.0.0", port=5000)

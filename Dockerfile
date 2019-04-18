@@ -1,9 +1,10 @@
 FROM bearstech/python-dev:3 as build
 
 COPY requirements.txt /usr/src/
+WORKDIR /usr/src
 RUN python3 -m venv /opt/issuer/venv \
         && /opt/issuer/venv/bin/pip install -U pip wheel \
-        && /opt/issuer/venv/bin/pip install -r /usr/src/requirements.txt
+        && /opt/issuer/venv/bin/pip install -r requirements.txt
 
 FROM bearstech/python:3
 
@@ -16,6 +17,7 @@ COPY *.py /opt/issuer/
 EXPOSE 5000
 USER issuer
 VOLUME /data
+WORKDIR /opt/issuer
 
-CMD ["/opt/issuer/venv/bin/python", "/opt/issuer/issuer.py"]
+CMD ["./venv/bin/python", "issuer.py"]
 
