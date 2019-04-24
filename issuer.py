@@ -22,6 +22,7 @@ with open("/data/private_key", "rb") as key_file:
 
 app = Flask(__name__)
 
+
 @app.route("/jwt/auth")
 def auth():
     _, p, action = request.args.get('scope').split(':')
@@ -42,6 +43,11 @@ def auth():
                   exp=now+300,
                   )
     jwt_token = jwt.encode(claims, key=private_key, algorithm='RS256')
+    app.logger.info(repr(jwt_token))
+    try:
+        app.logger.info(jwt.decode(jwt_token, verify=False))
+    except Exception:
+        app.logger.exception('cant decode token')
     return jsonify(dict(token=jwt_token.decode('utf8')))
 
 
