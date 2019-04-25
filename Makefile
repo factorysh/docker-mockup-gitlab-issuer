@@ -4,3 +4,5 @@ docker-image:
 		--build-arg uid=`id -u` \
 		.
 
+push:
+	git push git@github.com:factorysh/docker-mockup-gitlab-issuer.git master

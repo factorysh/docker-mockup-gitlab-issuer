@@ -35,7 +35,7 @@ def auth():
         access=[dict(
             type="repository",
             name=project,
-            actions=list(action)
+            actions=[action],
         )],
         iss="gitlab-issuer",
         iat=now,
