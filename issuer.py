@@ -25,18 +25,21 @@ app = Flask(__name__)
 
 @app.route("/jwt/auth")
 def auth():
-    _, p, action = request.args.get('scope').split(':')
-    project = p.replace('%2F', '/')
+    access = []
+    app.logger.info(request.args.getlist('scope'))
+    for scope in request.args.getlist('scope'):
+        _, project, actions = scope.split(':')
+        access.append(dict(
+            type="repository",
+            name=project,
+            actions=[a.strip() for a in actions.split(',')],
+        ))
     now = int(time.mktime(time.localtime()))
 
     claims = dict(
         aud=request.args.get('service'),
         sub=request.args.get('client_id'),
-        access=[dict(
-            type="repository",
-            name=project,
-            actions=[action],
-        )],
+        access=access,
         iss="gitlab-issuer",
         iat=now,
         nbf=now,
