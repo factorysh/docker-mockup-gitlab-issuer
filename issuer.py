@@ -29,19 +29,19 @@ def auth():
     project = p.replace('%2F', '/')
     now = int(time.mktime(time.localtime()))
 
-    claims = dict(aud=request.args.get('service'),
-                  sub=request.args.get('client_id'),
-                  access=list(
-                      dict(type="repository",
-                           name=project,
-                           actions=list(action)
-                           )
-                  ),
-                  iss="gitlab-issuer",
-                  iat=now,
-                  nbf=now,
-                  exp=now+300,
-                  )
+    claims = dict(
+        aud=request.args.get('service'),
+        sub=request.args.get('client_id'),
+        access=[dict(
+            type="repository",
+            name=project,
+            actions=list(action)
+        )],
+        iss="gitlab-issuer",
+        iat=now,
+        nbf=now,
+        exp=now+300,
+    )
     jwt_token = jwt.encode(claims, key=private_key, algorithm='RS256')
     app.logger.info(repr(jwt_token))
     try:
